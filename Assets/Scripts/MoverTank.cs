@@ -26,4 +26,14 @@ public class MoverTank : Mover
         rotationAmount *= Time.deltaTime;
         transform.Rotate(0, rotationAmount, 0);
     }
+
+    //Function that makes an AI tank rotate towards a position
+    public override void RotateTowards(Vector3 position, float turnSpeed)
+    {
+        Vector3 vectorToTarget = position - transform.position;
+        Quaternion lookRotation = Quaternion.LookRotation(vectorToTarget);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, lookRotation, turnSpeed * Time.deltaTime);
+    }
+    
 }
+
