@@ -39,9 +39,25 @@ public class ControllerPlayer : Controller
 
     }
 
+        //adds players to game
+
+    public override void Start()
+    {
+        GameManager.instance.players.Add(this);
+    }
+
+
+//destroys players when they lose all their health
+    public void OnDestroy()
+    {
+        GameManager.instance.players.Remove(this);
+    }
+
+
 //Updates game
     public override void Update()
     {
         base.Update();
     }
 }
+
