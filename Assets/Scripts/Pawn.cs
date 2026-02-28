@@ -32,7 +32,11 @@ public abstract class Pawn : MonoBehaviour
         mover = GetComponent<Mover>();
     }
 
-
+//runs RotateTowards from mover
+       public void RotateTowards(Vector3 position)
+    {
+        mover.RotateTowards(position, turnSpeed);
+    }
 
 
 
@@ -40,3 +44,4 @@ public abstract class Pawn : MonoBehaviour
 
 
 }
+
