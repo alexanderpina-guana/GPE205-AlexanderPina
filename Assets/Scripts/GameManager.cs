@@ -4,7 +4,10 @@ public class GameManager : MonoBehaviour
 {
 //The instance of the game manager
     public static GameManager instance;
-   
+
+    //The level asset
+    public Level level;
+    
     [Header("Prefabs")]
 
 //The controller asset
@@ -21,6 +24,10 @@ public class GameManager : MonoBehaviour
 
 //controller list
     public List<Controller> players;
+
+    //List of player spawn points
+    public List<PlayerSpawn> playerSpawnPoints;
+
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -49,19 +56,32 @@ public class GameManager : MonoBehaviour
 //Function that spawn the player
     public void StartGame()
     {
+        level.mapGenerator.GenerateMap();
+        
         SpawnPlayer();
-
  
     }
 
 //function with internal workings that spawn the player
     public void SpawnPlayer()
     {
+        Vector3 playerSpawnPosition;
+        if(playerSpawnPoints.Count > 0)
+        {
+             Transform playerSpawn = playerSpawnPoints[Random.Range(0, playerSpawnPoints.Count)].transform;
+             playerSpawnPosition = playerSpawn.position;
+        }
+        else
+        {
+            playerSpawnPosition = Vector3.zero;
+        }
         Pawn playerPawn = SpawnTank(playerPawnPrefab, Vector3.zero);
         Controller playerController = SpawnPlayerController(playerControllerPrefab);
         playerController.Possess(playerPawn);
 
         AssignAITargets(playerPawn.transform);
+
+        playerPawn.transform.position = playerSpawnPosition;
     }
 
 //function that spawns a tank
